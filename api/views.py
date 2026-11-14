@@ -1,16 +1,63 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.authtoken.models import Token
+from django.contrib.auth import authenticate
+
 from .models import (
     Tema, Unidad, Leccion, Usuario, Progreso, PaginaLeccion,
     ContenidoPagina, ImagenPagina, Pregunta, OpcionPregunta, ImagenPregunta
 )
 from .serializers import (
-    TemaSerializer, UnidadSerializer, LeccionSerializer, UsuarioSerializer,
+    UsuarioSerializer, TemaSerializer, UnidadSerializer, LeccionSerializer,
     ProgresoSerializer, PaginaLeccionSerializer, ContenidoPaginaSerializer,
     ImagenPaginaSerializer, PreguntaSerializer, OpcionPreguntaSerializer,
     ImagenPreguntaSerializer
 )
 
+# ==========================================
+# VISTA DE LOGIN
+# ==========================================
+class LoginAPIView(APIView):
+    permission_classes = [] 
+    authentication_classes = []
+
+    def post(self, request, *args, **kwargs):
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        if not username or not password:
+            return Response(
+                {"error": "Por favor, provea username y password."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            token, created = Token.objects.get_or_create(user=user)
+            
+            try:
+                perfil = user.perfil 
+                perfil_data = UsuarioSerializer(perfil).data
+            except Usuario.DoesNotExist:
+                perfil_data = None
+
+            return Response({
+                "token": token.key,
+                "usuario": perfil_data
+            }, status=status.HTTP_200_OK)
+            
+        else:
+            return Response(
+                {"error": "Credenciales inválidas."},
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+
+# ==========================================
+# VISTAS GENERALES (CRUD)
+# ==========================================
 class TemaViewSet(viewsets.ModelViewSet):
     queryset = Tema.objects.all()
     serializer_class = TemaSerializer
