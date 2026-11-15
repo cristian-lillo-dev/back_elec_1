@@ -7,7 +7,6 @@ from .views import (
     OpcionPreguntaViewSet, ImagenPreguntaViewSet
 )
 
-# Configuración del Router para los ViewSets (CRUD Automático)
 router = DefaultRouter()
 router.register(r'temas', TemaViewSet, basename='tema')
 router.register(r'unidades', UnidadViewSet, basename='unidad')

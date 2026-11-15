@@ -63,7 +63,6 @@ class RegistroAPIView(APIView):
     authentication_classes = []
 
     def post(self, request, *args, **kwargs):
-        # Clonamos el request para poder insertar los archivos si los hay
         data = request.data.copy()
         if request.FILES:
             data.update(request.FILES)

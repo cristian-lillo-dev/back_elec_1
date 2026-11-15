@@ -88,10 +88,8 @@ class RegistroSerializer(serializers.ModelSerializer):
         fields = ['username', 'password', 'email', 'first_name', 'last_name', 'imagen']
 
     def create(self, validated_data):
-        # Extraer la imagen (si viene) antes de crear el User nativo
         imagen = validated_data.pop('imagen', None)
         
-        # Crear el User de Django de forma segura (hashea la contraseña)
         user = User.objects.create_user(
             username=validated_data['username'],
             email=validated_data['email'],
@@ -100,7 +98,5 @@ class RegistroSerializer(serializers.ModelSerializer):
             last_name=validated_data.get('last_name', '')
         )
         
-        # Crear tu modelo Usuario vinculado al User
         Usuario.objects.create(user=user, imagen=imagen)
-        
         return user
