@@ -87,7 +87,7 @@ class RegistroAPIView(APIView):
 class TemaViewSet(viewsets.ModelViewSet):
     queryset = Tema.objects.all()
     serializer_class = TemaSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
 
 class UnidadViewSet(viewsets.ModelViewSet):
     queryset = Unidad.objects.all()
