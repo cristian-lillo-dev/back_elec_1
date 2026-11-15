@@ -1,11 +1,17 @@
-from django.contrib import admin
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from api.views import LoginAPIView, TemaViewSet, UnidadViewSet # ... (importa todos tus ViewSets)
+from django.contrib import admin
+
+
+router = DefaultRouter()
+router.register(r'temas', TemaViewSet, basename='tema')
+router.register(r'unidades', UnidadViewSet, basename='unidad')
+# ... (registra el resto de los ViewSets)
 
 urlpatterns = [
-    # Panel de administración de Django
     path('admin/', admin.site.urls),
-    
-    # Conecta las rutas de tu aplicación (el prefijo 'api/' se aplicará a todas)
-    # Nota: Si la carpeta de tu app no se llama 'api', cambia 'api.urls' por 'tu_app.urls'
-    path('api/', include('api.urls')),
+    path('auth/login/', LoginAPIView.as_view(), name='api-login'),
+    # Dejamos la ruta base en blanco para que el core le asigne el prefijo
+    path('', include(router.urls)),
 ]
