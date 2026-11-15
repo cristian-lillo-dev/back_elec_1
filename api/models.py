@@ -103,3 +103,12 @@ class ImagenPregunta(models.Model):
 
     def __str__(self):
         return self.nombre
+
+
+class EstadisticasUsuario(models.Model):
+    usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE, related_name='estadisticas')
+    vidas = models.IntegerField(default=5)
+    monedas = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"Estadísticas de {self.usuario.user.username}"
