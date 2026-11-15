@@ -92,7 +92,7 @@ class TemaViewSet(viewsets.ModelViewSet):
 class UnidadViewSet(viewsets.ModelViewSet):
     queryset = Unidad.objects.all()
     serializer_class = UnidadSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
 
 class LeccionViewSet(viewsets.ModelViewSet):
     queryset = Leccion.objects.all()
