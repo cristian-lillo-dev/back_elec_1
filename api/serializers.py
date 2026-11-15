@@ -72,3 +72,35 @@ class PreguntaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pregunta
         fields = ['id', 'texto', 'pagina_leccion', 'numero_pregunta', 'opciones', 'imagenes']
+
+# ==========================================
+# SERIALIZER DE REGISTRO
+# ==========================================
+class RegistroSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+    email = serializers.EmailField(required=True)
+    first_name = serializers.CharField(required=False, allow_blank=True)
+    last_name = serializers.CharField(required=False, allow_blank=True)
+    imagen = serializers.ImageField(required=False)
+
+    class Meta:
+        model = User
+        fields = ['username', 'password', 'email', 'first_name', 'last_name', 'imagen']
+
+    def create(self, validated_data):
+        # Extraer la imagen (si viene) antes de crear el User nativo
+        imagen = validated_data.pop('imagen', None)
+        
+        # Crear el User de Django de forma segura (hashea la contraseña)
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password'],
+            first_name=validated_data.get('first_name', ''),
+            last_name=validated_data.get('last_name', '')
+        )
+        
+        # Crear tu modelo Usuario vinculado al User
+        Usuario.objects.create(user=user, imagen=imagen)
+        
+        return user

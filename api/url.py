@@ -1,13 +1,14 @@
+from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
-    LoginAPIView, TemaViewSet, UnidadViewSet, LeccionViewSet, 
+    LoginAPIView, RegistroAPIView, TemaViewSet, UnidadViewSet, LeccionViewSet, 
     UsuarioViewSet, ProgresoViewSet, PaginaLeccionViewSet, 
     ContenidoPaginaViewSet, ImagenPaginaViewSet, PreguntaViewSet, 
     OpcionPreguntaViewSet, ImagenPreguntaViewSet
 )
 
-# Configuración del Router para los ViewSets
+# Configuración del Router para los ViewSets (CRUD Automático)
 router = DefaultRouter()
 router.register(r'temas', TemaViewSet, basename='tema')
 router.register(r'unidades', UnidadViewSet, basename='unidad')
@@ -22,9 +23,13 @@ router.register(r'opciones-pregunta', OpcionPreguntaViewSet, basename='opcion-pr
 router.register(r'imagenes-pregunta', ImagenPreguntaViewSet, basename='imagen-pregunta')
 
 urlpatterns = [
-    # Ruta de autenticación (Login manual anterior)
+    # Panel de administración de Django
+    path('admin/', admin.site.urls),
+
+    # Rutas de Autenticación
     path('auth/login/', LoginAPIView.as_view(), name='api-login'),
+    path('auth/registro/', RegistroAPIView.as_view(), name='api-registro'),
     
-    # Inclusión automática de todas las rutas del router
+    # Inclusión automática de todas las rutas del router para los modelos
     path('api/', include(router.urls)),
 ]

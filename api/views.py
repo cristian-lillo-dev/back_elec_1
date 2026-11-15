@@ -13,7 +13,7 @@ from .serializers import (
     UsuarioSerializer, TemaSerializer, UnidadSerializer, LeccionSerializer,
     ProgresoSerializer, PaginaLeccionSerializer, ContenidoPaginaSerializer,
     ImagenPaginaSerializer, PreguntaSerializer, OpcionPreguntaSerializer,
-    ImagenPreguntaSerializer
+    ImagenPreguntaSerializer, RegistroSerializer
 )
 
 # ==========================================
@@ -54,6 +54,33 @@ class LoginAPIView(APIView):
                 {"error": "Credenciales inválidas."},
                 status=status.HTTP_401_UNAUTHORIZED
             )
+
+# ==========================================
+# VISTA DE REGISTRO
+# ==========================================
+class RegistroAPIView(APIView):
+    permission_classes = [] 
+    authentication_classes = []
+
+    def post(self, request, *args, **kwargs):
+        # Clonamos el request para poder insertar los archivos si los hay
+        data = request.data.copy()
+        if request.FILES:
+            data.update(request.FILES)
+
+        serializer = RegistroSerializer(data=data)
+        
+        if serializer.is_valid():
+            user = serializer.save()
+            return Response(
+                {
+                    "mensaje": "Usuario y perfil creados exitosamente.", 
+                    "usuario_id": user.perfil.id
+                },
+                status=status.HTTP_201_CREATED
+            )
+            
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # ==========================================
 # VISTAS GENERALES (CRUD)
