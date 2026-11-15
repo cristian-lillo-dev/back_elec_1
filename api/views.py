@@ -97,44 +97,44 @@ class UnidadViewSet(viewsets.ModelViewSet):
 class LeccionViewSet(viewsets.ModelViewSet):
     queryset = Leccion.objects.all()
     serializer_class = LeccionSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
 
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
 
 class ProgresoViewSet(viewsets.ModelViewSet):
     queryset = Progreso.objects.all()
     serializer_class = ProgresoSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
 
 class PaginaLeccionViewSet(viewsets.ModelViewSet):
     queryset = PaginaLeccion.objects.all()
     serializer_class = PaginaLeccionSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
 
 class ContenidoPaginaViewSet(viewsets.ModelViewSet):
     queryset = ContenidoPagina.objects.all()
     serializer_class = ContenidoPaginaSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
 
 class ImagenPaginaViewSet(viewsets.ModelViewSet):
     queryset = ImagenPagina.objects.all()
     serializer_class = ImagenPaginaSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
 
 class PreguntaViewSet(viewsets.ModelViewSet):
     queryset = Pregunta.objects.all()
     serializer_class = PreguntaSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
 
 class OpcionPreguntaViewSet(viewsets.ModelViewSet):
     queryset = OpcionPregunta.objects.all()
     serializer_class = OpcionPreguntaSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
 
 class ImagenPreguntaViewSet(viewsets.ModelViewSet):
     queryset = ImagenPregunta.objects.all()
     serializer_class = ImagenPreguntaSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
