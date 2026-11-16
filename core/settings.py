@@ -131,3 +131,12 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Ruta donde Django guardará físicamente las imágenes dentro del contenedor
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
