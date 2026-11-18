@@ -58,7 +58,7 @@ class PaginaLeccionSerializer(serializers.ModelSerializer):
 class OpcionPreguntaSerializer(serializers.ModelSerializer):
     class Meta:
         model = OpcionPregunta
-        fields = ['id', 'texto', 'es_correcta']
+        fields = ['id', 'texto', 'es_correcta', 'pregunta']
 
 class ImagenPreguntaSerializer(serializers.ModelSerializer):
     class Meta:
